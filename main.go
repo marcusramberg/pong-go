@@ -3,9 +3,7 @@ package main
 import (
 	"errors"
 	"log"
-
 	"github.com/marcusramberg/pong-go/game"
-
 	"github.com/hajimehoshi/ebiten/v2"
 )
 

@@ -2,7 +2,6 @@ package game
 
 import (
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -41,10 +40,13 @@ func initFont() {
 }
 type Game struct {
 	count int
+	board *Board
+
 }
 
 func NewGame() *Game {
 	game := new(Game)
+	game.board = NewBoard()
 	initFont()
 	return game
 }
@@ -59,17 +61,14 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	scale := ebiten.DeviceScaleFactor()
-	fw, fh := ebiten.ScreenSizeInFullscreen()
-	sw, sh := screen.Size()
+	//	fw, fh := ebiten.ScreenSizeInFullscreen()
+	//sw, sh := screen.Size()
 	msgs := []string{
 		"esc to quit",
-		fmt.Sprintf("Screen size in fullscreen: %d, %d", fw, fh),
-		fmt.Sprintf("Game's screen size: %d, %d", sw, sh),
-		fmt.Sprintf("Device scale factor: %0.2f", scale),
 	}
+	g.board.Draw(screen)
 
 	for i, msg := range msgs {
-		text.Draw(screen, msg, mplusFont, int(50*scale), int(100+float64(i)*40*scale), color.White)
 	}
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
