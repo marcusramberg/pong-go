@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-//	"image/color"
+	//	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/font"
@@ -13,8 +13,8 @@ import (
 )
 
 var (
-		regularTermination = errors.New("regular termination")
-		mplusFont font.Face
+	regularTermination = errors.New("regular termination")
+	mplusFont          font.Face
 )
 
 func initFont() {
@@ -22,7 +22,7 @@ func initFont() {
 	if err != nil {
 		log.Fatal(err)
 	}
-		tt, err := opentype.Parse(squareFont)
+	tt, err := opentype.Parse(squareFont)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,10 +37,10 @@ func initFont() {
 		log.Fatal(err)
 	}
 }
+
 type Game struct {
 	count int
 	board *Board
-
 }
 
 func NewGame() *Game {
@@ -52,8 +52,17 @@ func NewGame() *Game {
 
 func (g *Game) Update() error {
 	g.count++
-	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+	switch {
+	case ebiten.IsKeyPressed(ebiten.KeyEscape):
 		return regularTermination
+	case ebiten.IsKeyPressed(ebiten.KeyW):
+		g.board.MovePaddle(0, -5.0)
+	case ebiten.IsKeyPressed(ebiten.KeyS):
+		g.board.MovePaddle(0, 5.0)
+	case ebiten.IsKeyPressed(ebiten.KeyI):
+		g.board.MovePaddle(1, -5.0)
+	case ebiten.IsKeyPressed(ebiten.KeyK):
+		g.board.MovePaddle(1, 5.0)
 	}
 	return nil
 }
