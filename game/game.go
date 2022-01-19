@@ -5,10 +5,9 @@ import (
 	"io/ioutil"
 	"log"
 
-	"image/color"
+//	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 )
@@ -60,16 +59,10 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	scale := ebiten.DeviceScaleFactor()
 	//	fw, fh := ebiten.ScreenSizeInFullscreen()
 	//sw, sh := screen.Size()
-	msgs := []string{
-		"esc to quit",
-	}
 	g.board.Draw(screen)
 
-	for i, msg := range msgs {
-	}
 }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	s := ebiten.DeviceScaleFactor()
