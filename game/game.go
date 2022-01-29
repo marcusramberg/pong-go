@@ -25,16 +25,21 @@ func NewGame() *Game {
 
 func (g *Game) Update() error {
 	g.count++
-	switch {
-	case ebiten.IsKeyPressed(ebiten.KeyEscape):
+	
+	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
+
 		return regularTermination
-	case ebiten.IsKeyPressed(ebiten.KeyW):
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyW) {
 		g.board.MovePaddle(0, -5.0)
-	case ebiten.IsKeyPressed(ebiten.KeyS):
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyS) {
 		g.board.MovePaddle(0, 5.0)
-	case ebiten.IsKeyPressed(ebiten.KeyI):
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyI) {
 		g.board.MovePaddle(1, -5.0)
-	case ebiten.IsKeyPressed(ebiten.KeyK):
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyK) {
 		g.board.MovePaddle(1, 5.0)
 	}
 	return nil
