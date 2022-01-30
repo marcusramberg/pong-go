@@ -91,6 +91,8 @@ func (b *Board) Update() {
 
 func (b *Board) MovePaddle(paddle int, pos float64) {
 	b.paddles[paddle] += pos
+	if b.paddles[paddle]<0 { b.paddles[paddle]=0 }
+	if b.paddles[paddle]+100.0> GameHeight { b.paddles[paddle]=GameHeight-100.0 }
 }
 
 func (b *Board) Draw(screen *ebiten.Image) {
@@ -101,7 +103,7 @@ func (b *Board) Draw(screen *ebiten.Image) {
 	}
 	text.Draw(screen, "esc to quit", smallFont, sw-int(400.0), sh-int(30.0), color.RGBA{0x99, 0x99, 0x99, 0xff})
 	text.Draw(screen, strconv.Itoa(b.scores[0]), bigFont, int(center)-int(100.0), int(70.0), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
-	text.Draw(screen, strconv.Itoa(b.scores[1]), bigFont, int(center)+int(40.0), int(70.0), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
+	text.Draw(screen, strconv.Itoa(b.scores[1]), bigFont, int(center)+int(50.0), int(70.0), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
 	// Just draw two paddles for now
 	//for i, paddle := range b.paddles {
 	//}
