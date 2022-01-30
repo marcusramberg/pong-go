@@ -47,6 +47,7 @@ func initFonts() {
 	}
 }
 
+// Board ...
 type Board struct {
 	count   int
 	paddles []float64
@@ -54,13 +55,26 @@ type Board struct {
 	ball    *Ball
 }
 
+// NewBoard
 func NewBoard() *Board {
 	board := new(Board)
-	board.ball = NewBall()
+	board.ball = NewBall(false)
 	board.paddles = []float64{10.0, 10.0}
 	board.scores = []int{0, 0}
 	initFonts()
 	return board
+}
+
+func (b *Board) Update() {
+	b.ball.Update()
+	b.ball.CheckHit(b.paddles)
+	if b.ball.x> GameWidth {
+		b.scores[1]++
+		b.ball=NewBall(true)
+	} else if  b.ball.x < 0.0 {
+		b.scores[0]++
+		b.ball=NewBall(false)
+	}
 }
 
 func (b *Board) MovePaddle(paddle int, pos float64) {
@@ -70,16 +84,16 @@ func (b *Board) MovePaddle(paddle int, pos float64) {
 func (b *Board) Draw(screen *ebiten.Image) {
 	sw, sh := screen.Size()
 	center := float64(sw) / 2
-	scale := ebiten.DeviceScaleFactor()
 	for y := float64(30); y < float64(sh)-110; y = y + 110 {
 		ebitenutil.DrawRect(screen, center-5.0, y, 10, 70, color.White)
 	}
-	text.Draw(screen, "esc to quit", smallFont, sw-int(400.0*scale), sh-int(30.0*scale), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
-	text.Draw(screen, strconv.Itoa(b.scores[0]), bigFont, int(center)-int(70.0*scale), int(70.0*scale), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
-	text.Draw(screen, strconv.Itoa(b.scores[1]), bigFont, int(center)+int(40.0*scale), int(70.0*scale), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
+	text.Draw(screen, "esc to quit", smallFont, sw-int(400.0), sh-int(30.0), color.RGBA{0x99, 0x99, 0x99, 0xff})
+	text.Draw(screen, strconv.Itoa(b.scores[0]), bigFont, int(center)-int(100.0), int(70.0), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
+	text.Draw(screen, strconv.Itoa(b.scores[1]), bigFont, int(center)+int(40.0), int(70.0), color.RGBA{0xbb, 0xbb, 0xbb, 0xff})
 	// Just draw two paddles for now
 	//for i, paddle := range b.paddles {
 	//}
-	ebitenutil.DrawRect(screen, 50*scale, b.paddles[0]*scale, 15, 100, color.White)
-	ebitenutil.DrawRect(screen, float64(sw)-60*scale, b.paddles[1]*scale, 15, 100, color.White)
+	ebitenutil.DrawRect(screen, 50, b.paddles[0], 15, 100, color.White)
+	ebitenutil.DrawRect(screen, float64(sw)-65, b.paddles[1], 15, 100, color.White)
+	b.ball.Draw(screen)
 }

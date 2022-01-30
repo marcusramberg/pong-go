@@ -8,6 +8,9 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+const GameWidth = 1920
+const GameHeight = 1080
+
 var (
 	regularTermination = errors.New("regular termination")
 )
@@ -25,7 +28,8 @@ func NewGame() *Game {
 
 func (g *Game) Update() error {
 	g.count++
-	
+
+	g.board.Update()
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
 
 		return regularTermination
@@ -51,7 +55,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.board.Draw(screen)
 }
 
-func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	s := ebiten.DeviceScaleFactor()
-	return int(float64(outsideWidth) * s), int(float64(outsideHeight) * s)
+func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
+	return GameWidth, GameHeight
 }
