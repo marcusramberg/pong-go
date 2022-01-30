@@ -29,13 +29,18 @@ func NewGame() *Game {
 
 func (g *Game) Update() error {
 	g.count++
+	if g.count < 50 {
+		return nil
+	}
 
 	g.board.Update()
 	if g.board.scores[0] > 10 || g.board.scores[1] > 10 {
 		// Reset
-		g.board = NewBoard()
+		g.board.scores = []int{0, 0}
 		err := g.board.sfx.Play("peep")
-    if err != nil { log.Fatal(err) }
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
 

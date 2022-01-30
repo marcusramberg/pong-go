@@ -37,7 +37,7 @@ func (b *Ball) CheckHit(paddles []float64) {
 			b.x_velocity = 0 - b.x_velocity + 0.3
 			factor := (b.y-paddles[1])/100.0+0.5
 			b.y_velocity*=factor
-			err := b.sfx.Play("beep")
+			err := b.sfx.Play("plop")
 			if err != nil { log.Fatal(err) }
 		}
 	} else {
@@ -45,7 +45,7 @@ func (b *Ball) CheckHit(paddles []float64) {
 			b.x_velocity = 0 - b.x_velocity + 0.8
 			factor := (b.y-paddles[0])/100.0+0.5
 			b.y_velocity*=factor
-			err := b.sfx.Play("beep")
+			err := b.sfx.Play("plop")
 			if err != nil { log.Fatal(err) }
 		}
 	}
