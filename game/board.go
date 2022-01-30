@@ -53,14 +53,21 @@ type Board struct {
 	paddles []float64
 	scores  []int
 	ball    *Ball
+	sfx     *Sfx
 }
 
 // NewBoard
 func NewBoard() *Board {
+	
 	board := new(Board)
-	board.ball = NewBall(false)
 	board.paddles = []float64{10.0, 10.0}
 	board.scores = []int{0, 0}
+	sfx, err := NewSfx()
+	if(err != nil) {
+		log.Fatal(err)
+	}
+	board.ball = NewBall(false, sfx)
+	board.sfx=sfx
 	initFonts()
 	return board
 }
@@ -69,11 +76,16 @@ func (b *Board) Update() {
 	b.ball.Update()
 	b.ball.CheckHit(b.paddles)
 	if b.ball.x> GameWidth {
-		b.scores[1]++
-		b.ball=NewBall(true)
-	} else if  b.ball.x < 0.0 {
 		b.scores[0]++
-		b.ball=NewBall(false)
+		err := b.sfx.Play("beep")
+    if err != nil { log.Fatal(err) }
+		b.ball=NewBall(true, b.sfx)
+	} else if  b.ball.x < 0.0 {
+		b.scores[1]++
+		err := b.sfx.Play("beep")
+    if err != nil { log.Fatal(err) }
+
+		b.ball=NewBall(false, b.sfx)
 	}
 }
 

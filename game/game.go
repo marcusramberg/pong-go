@@ -2,6 +2,7 @@ package game
 
 import (
 	"errors"
+	"log"
 
 	//	"image/color"
 
@@ -30,21 +31,27 @@ func (g *Game) Update() error {
 	g.count++
 
 	g.board.Update()
+	if g.board.scores[0] > 10 || g.board.scores[1] > 10 {
+		// Reset
+		g.board = NewBoard()
+		err := g.board.sfx.Play("peep")
+    if err != nil { log.Fatal(err) }
+	}
 	if ebiten.IsKeyPressed(ebiten.KeyEscape) {
 
 		return regularTermination
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyW) {
-		g.board.MovePaddle(0, -5.0)
+		g.board.MovePaddle(0, -7.0)
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyS) {
-		g.board.MovePaddle(0, 5.0)
+		g.board.MovePaddle(0, 7.0)
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyI) {
-		g.board.MovePaddle(1, -5.0)
+		g.board.MovePaddle(1, -7.0)
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyK) {
-		g.board.MovePaddle(1, 5.0)
+		g.board.MovePaddle(1, 7.0)
 	}
 	return nil
 }
