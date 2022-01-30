@@ -47,6 +47,7 @@ func initFonts() {
 	}
 }
 
+// Board ...
 type Board struct {
 	count   int
 	paddles []float64
@@ -54,9 +55,10 @@ type Board struct {
 	ball    *Ball
 }
 
+// NewBoard
 func NewBoard() *Board {
 	board := new(Board)
-	board.ball = NewBall()
+	board.ball = NewBall(false)
 	board.paddles = []float64{10.0, 10.0}
 	board.scores = []int{0, 0}
 	initFonts()
@@ -82,4 +84,5 @@ func (b *Board) Draw(screen *ebiten.Image) {
 	//}
 	ebitenutil.DrawRect(screen, 50*scale, b.paddles[0]*scale, 15, 100, color.White)
 	ebitenutil.DrawRect(screen, float64(sw)-60*scale, b.paddles[1]*scale, 15, 100, color.White)
+	b.ball.draw(screen)
 }
